@@ -30,8 +30,7 @@ router.get('/notes', (req, res, next) => {
                         url: `${req.protocol}://${req.hostname}/api/notes`
                     }
                 });
-
-            }
+            };
             // Notas
             notes = notes.map(note => ({
                 id: note._id,
