@@ -10,6 +10,28 @@ router.get('/notes', (req, res, next) => {
         .exec((err, notes) => {
             // Si hay error
             if (err) return next(err);
+            // Si no es localhost
+            if (req.hostname != 'localhost')
+            {
+                notes = notes.map(note => ({
+                    id: note._id,
+                    title: note.title,
+                    text: note.text,
+                    details: {
+                        method: 'GET',
+                        url: `${req.protocol}://${req.hostname}/api/notes/${note._id}`
+                    }
+                }));
+                res.status(200).json({
+                    count: notes.length,
+                    notes: notes,
+                    tocreateuse: {
+                        method: 'POST',
+                        url: `${req.protocol}://${req.hostname}/api/notes`
+                    }
+                });
+
+            }
             // Notas
             notes = notes.map(note => ({
                 id: note._id,
@@ -40,6 +62,23 @@ router.get('/notes/:id', (req, res, next) => {
             if (err) return next(err); 
             // Si no se encuentra
             if (!note) return res.status(404).json({ msg: 'Not Found'});
+            // Si no es localhost
+            if (req.hostname != 'localhost')
+            {
+                res.status(200).json({
+                    note: note,
+                    links: {
+                        update: {
+                            method: 'PUT',
+                            url: `${req.protocol}://${req.hostname}/api/notes/${note._id}`
+                        },
+                        delete: {
+                            method: 'DELETE',
+                            url: `${req.protocol}://${req.hostname}/api/notes/${note._id}`
+                        }
+                    }
+                });
+            }
             // Nota encontrada
             res.status(200).json ({
                 note: note,
