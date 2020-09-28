@@ -4,7 +4,7 @@ const router = express.Router();
 
 // GET /notes
 router.get('/notes', (req, res, next) => {
-    Note.find()                     // Buscar en todas las notas
+    Note.find()                     // Buscar todas las notas
         .select('_id title text')   // Selecciona los campos a mostrar
         .sort('-updatedAt')         // Ordena por modificación de mayor a menor
         .exec((err, notes) => {
