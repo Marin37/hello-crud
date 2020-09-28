@@ -30,25 +30,29 @@ router.get('/notes', (req, res, next) => {
                         url: `${req.protocol}://${req.hostname}/api/notes`
                     }
                 });
-            };
+            }
             // Notas
-            notes = notes.map(note => ({
-                id: note._id,
-                title: note.title,
-                text: note.text,
-                details: {
-                    method: 'GET',
-                    url: `${req.protocol}://${req.hostname}:3000/api/notes/${note._id}`
-                }
-            }));
-            res.status(200).json({
-                count: notes.length,
-                notes: notes,
-                tocreateuse: {
-                    method: 'POST',
-                    url: `${req.protocol}://${req.hostname}:3000/api/notes`
-                }
-            });
+            else 
+            {
+
+                notes = notes.map(note => ({
+                    id: note._id,
+                    title: note.title,
+                    text: note.text,
+                    details: {
+                        method: 'GET',
+                        url: `${req.protocol}://${req.hostname}:3000/api/notes/${note._id}`
+                    }
+                }));
+                res.status(200).json({
+                    count: notes.length,
+                    notes: notes,
+                    tocreateuse: {
+                        method: 'POST',
+                        url: `${req.protocol}://${req.hostname}:3000/api/notes`
+                    }
+                });
+            };
         });
 });
 
