@@ -1,4 +1,4 @@
-// Conexiones a los demás archivos
+// Conexion a mongoose
 const mongoose = require('mongoose');
 
 // Definición del Schema
